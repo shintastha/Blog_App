@@ -21,3 +21,5 @@ final class AuthFailure extends AuthState {
 
   AuthFailure(this.message);
 }
+
+class AuthLoggedOut extends AuthState {} // New state for logout

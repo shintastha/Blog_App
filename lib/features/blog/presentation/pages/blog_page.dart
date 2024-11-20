@@ -1,6 +1,8 @@
 import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app/features/auth/presentation/pages/login_page.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/pages/add_new_blog_page.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
@@ -35,7 +37,17 @@ class _BlogPageState extends State<BlogPage> {
               onPressed: () {
                 Navigator.push(context, AddNewBlogPage.route());
               },
-              icon: const Icon(CupertinoIcons.add_circled))
+              icon: const Icon(CupertinoIcons.add_circled)),
+          IconButton(
+              onPressed: () async {
+                context.read<AuthBloc>().add(AuthLogOut()); 
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginPage()),
+                  (route) => false, 
+                );
+              },
+              icon: const Icon(CupertinoIcons.arrow_right_circle))
         ],
       ),
       body: BlocConsumer<BlogBloc, BlogState>(

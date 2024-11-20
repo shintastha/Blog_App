@@ -48,11 +48,15 @@ void _initAuth() {
     ..registerFactory(() => CurrentUser(
           serviceLocator(),
         ))
+    ..registerFactory(() => UserSignOut(
+          serviceLocator(),
+        ))
     ..registerLazySingleton(() => AuthBloc(
           userSignUp: serviceLocator(),
           userLogin: serviceLocator(),
           currentUser: serviceLocator(),
           appUserCubit: serviceLocator(),
+          userSignOut: serviceLocator(),
         ));
 }
 
@@ -64,15 +68,15 @@ void _initBlog() {
         serviceLocator(),
       ),
     )
-    ..registerFactory<BlogLocalDataSource>(() => BlogLocalDataSourceIml(
-          serviceLocator(),
-        ))
+    // ..registerFactory<BlogLocalDataSource>(() => BlogLocalDataSourceIml(
+    //       serviceLocator(),
+    //     ))
     // Repository
     ..registerFactory<BlogRepositary>(
       () => BlogRepositaryIml(
         serviceLocator(),
         serviceLocator(),
-        serviceLocator(),
+        // serviceLocator(),
       ),
     )
     // Usecase

@@ -9,6 +9,7 @@ abstract interface class AuthRemoteDataSource {
   Future<UserModel> loginWithEmailPassword(
       {required String email, required String password});
   Future<UserModel?> getCurrentUserData();
+  Future<void> signOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -72,6 +73,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       return null;
     } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel?> signOut() async {
+    try {
+      // Attempt to sign out the user
+      await supabaseClient.auth.signOut();
+      return null; // Returning null to indicate no user is signed in
+    } on AuthException catch (e) {
+      throw ServerException(e.message);
+    } catch (e) {
+      print('Exception occurred during sign out: $e');
       throw ServerException(e.toString());
     }
   }

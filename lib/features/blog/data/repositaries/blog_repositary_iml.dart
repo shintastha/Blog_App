@@ -13,11 +13,11 @@ import 'package:uuid/uuid.dart';
 
 class BlogRepositaryIml implements BlogRepositary {
   final BlogRemoteDataSource blogRemoteDataSource;
-  final BlogLocalDataSource blogLocalDataSource;
+  // final BlogLocalDataSource blogLocalDataSource;
   final ConnectionChecker connectionChecker;
   BlogRepositaryIml(
     this.blogRemoteDataSource,
-    this.blogLocalDataSource,
+    // this.blogLocalDataSource,
     this.connectionChecker,
   );
 
@@ -60,12 +60,12 @@ class BlogRepositaryIml implements BlogRepositary {
   @override
   Future<Either<Failure, List<Blog>>> getAllBlogs() async {
     try {
-      if (!await (connectionChecker.isConnected)) {
-        final blogs = blogLocalDataSource.loadBlogs();
-        return right(blogs);
-      }
+      // if (!await (connectionChecker.isConnected)) {
+      //   final blogs = blogLocalDataSource.loadBlogs();
+      //   return right(blogs);
+      // }
       final blogs = await blogRemoteDataSource.getAllBlogs();
-      blogLocalDataSource.uploadLocalBlogs(blogs: blogs);
+      // blogLocalDataSource.uploadLocalBlogs(blogs: blogs);
       return right(blogs);
     } on ServerException catch (e) {
       return left(Failure(e.message));
